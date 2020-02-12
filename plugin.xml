@@ -13,6 +13,6 @@
             </feature>
         </config-file>
         <config-file parent="/*" target="AndroidManifest.xml"></config-file>
-        <source-file src="src/android/SecrityChecks.java" target-dir="src/cordova/plugin/securityChecks/SecurityChecks" />
+        <source-file src="src/android/SecurityChecks.java" target-dir="src/cordova/plugin/securityChecks/SecurityChecks" />
     </platform>
 </plugin>
