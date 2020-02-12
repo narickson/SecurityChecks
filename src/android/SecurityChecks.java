@@ -33,11 +33,11 @@ public class SecurityChecks extends CordovaPlugin {
         return false;
     }
 
-    private void SecurityPassFn(String msg, CallbackContext callbackContext) {
+    private void SecurityPassFn(JSONArray msg, CallbackContext callbackContext) {
         if (msg == null || msg.length() == 0) {
             callbackContext.error("Plugin did not work!");
         } else {
-            Toast.makeText(webView.getContext(), msg, Toast.LENGTH_LONG).show();
+            Toast.makeText(webView.getContext(), "You are the man", Toast.LENGTH_LONG).show();
             PluginResult result = new PluginResult("Success", "You boss this shit!");
             callbackContext.sendPluginResult(result);
         }
