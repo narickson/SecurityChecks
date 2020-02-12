@@ -39,7 +39,7 @@ public class SecurityChecks extends CordovaPlugin {
         } else {
             Toast.makeText(webView.getContext(), msg, Toast.LENGTH_LONG).show();
             PluginResult result = new PluginResult("Success", "You boss this shit!");
-            callbackContext.sendPluginResult(PluginResult);
+            callbackContext.sendPluginResult(result);
         }
     }
 }
