@@ -16,6 +16,8 @@ import android.widget.Toast;
 import android.content.Context;
 
 public class SecurityChecks extends CordovaPlugin {
+        Context mContext;
+
     // at the initialize function, we can configure the tools we want to use later, like the sensors
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
