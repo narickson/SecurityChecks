@@ -38,7 +38,7 @@ public class SecurityChecks extends CordovaPlugin {
             callbackContext.error("Plugin did not work!");
         } else {
             Toast.makeText(webView.getContext(), msg, Toast.LENGTH_LONG).show();
-            PluginResult result = new PluginResult("Success", "You boss this shit!")
+            PluginResult result = new PluginResult("Success", "You boss this shit!");
             callbackContext.sendPluginResult(PluginResult);
         }
     }
