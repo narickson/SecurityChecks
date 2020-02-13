@@ -1,22 +1,26 @@
 {
-    "name": "securitychecks",
-    "version": "3.1.1",
-    "description": "security checks plugin",
-    "main": "index.js",
-    "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/narickson/cordova-plugin-securityChecks.git"
-    },
-    "keywords": [
-        "cordova", "downloadsource", "debuggable", "security"
-    ],
-    "author": "Ndegwa",
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/narickson/cordova-plugin-securityChecks.git/issues"
-    },
-    "homepage": "https://github.com/narickson/cordova-plugin-securityChecks.git#readme"
+  "name": "securitychecks",
+  "version": "3.1.1",
+  "description": "imei plugin",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/narickson/cordova-plugin-imei.git"
+  },
+  "keywords": [
+    "ionic",
+    "imei",
+    "uuid",
+    "deviceId",
+    "cordova"
+  ],
+  "author": "Narickson Ndegwa",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/narickson/cordova-plugin-imei/issues"
+  },
+  "homepage": "https://github.com/narickson/cordova-plugin-imei#readme"
 }
