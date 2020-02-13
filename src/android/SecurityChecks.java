@@ -44,19 +44,7 @@ public class SecurityChecks extends CordovaPlugin {
     private void validate(JSONArray args, CallbackContext callback) {
         if (args != null) {
             try {
-                // int p1 = Integer.parseInt(args.getJSONObject(0).getString("param1"));
-                // int p2 = Integer.parseInt(args.getJSONObject(0).getString("param2"));
-                // String imei;
-                // // final TelephonyManager mTelephony = (TelephonyManager) mContext
-                // // .getSystemService(Context.TELEPHONY_SERVICE);
-                // // if (mTelephony.getDeviceId() != null) {
-                // // imei = mTelephony.getDeviceId();
-                // } else {
-                imei = Secure.getString(mContext.getContentResolver(), Secure.ANDROID_ID);
-
-                // }
-                callback.success("" + imei);
-
+                callback.success("You boss this :)");
             } catch (Exception ex) {
                 callback.error("Something went wrong!");
             }
