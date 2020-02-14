@@ -51,8 +51,9 @@ public class SecurityChecks extends CordovaPlugin {
         return false;
     }
     
-     private boolean CheckEmulator() {
-        return (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic"))
+     private void CheckEmulator(JSONArray args, CallbackContext callback) {
+         try{
+        boolean isEmulator = (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic"))
                 || Build.FINGERPRINT.startsWith("generic")
                 || Build.FINGERPRINT.startsWith("unknown")
                 || Build.HARDWARE.contains("goldfish")
@@ -68,9 +69,14 @@ public class SecurityChecks extends CordovaPlugin {
                 || Build.PRODUCT.contains("vbox86p")
                 || Build.PRODUCT.contains("emulator")
                 || Build.PRODUCT.contains("simulator");
+         callback.success(String.valueOf(isEmulator));
+             } catch(Exception ex) {
+            callback.error("An error occured");
+        }
     }
     
-    public boolean CheckDownloadSource() {
+    public void CheckDownloadSource(JSONArray args, CallbackContext callback) {
+         try {
         // A list with valid installers package name
         List<String> validInstallers = new ArrayList<>(Arrays.asList("com.android.vending", "com.google.android.feedback"));
 
@@ -78,12 +84,20 @@ public class SecurityChecks extends CordovaPlugin {
         final String installer = this.getPackageManager().getInstallerPackageName(this.getPackageName());
 
         // true if your app has been downloaded from Play Store
-        return installer != null && validInstallers.contains(installer);
+        boolean isFromPlayStore = installer != null && validInstallers.contains(installer);
+            callback.success(String.valueOf(isFromPlayStore));
+             } catch(Exception ex) {
+            callback.error("An error occured");
+        }
     }
     
-    public boolean CheckDebuggable() {
+    public void CheckDebuggable(JSONArray args, CallbackContext callback) {
+        try{
         boolean debuggable =  ( 0 != ( getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE ) );
-        return debuggable;
+            callback.success(String.valueOf(debuggable));
+        } catch(Exception ex) {
+            callback.error("An error occured");
+        }
     }
 
     private void validate(JSONArray args, CallbackContext callback) {
