@@ -34,23 +34,59 @@ public class SecurityChecks extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        if (action.equals("validate")) {
-            this.validate(args, callbackContext);
+        if (action.equals("checkEmulator")) {
+            this.CheckEmulator(args, callbackContext);
+            return true;
+        }
+        
+        if (action.equals("checkDebuggable")) {
+            this.CheckDebuggable(args, callbackContext);
+            return true;
+        }
+        
+        if (action.equals("checkDownloadSource")) {
+            this.CheckDownloadSource(args, callbackContext);
             return true;
         }
         return false;
     }
+    
+     private boolean CheckEmulator() {
+        return (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic"))
+                || Build.FINGERPRINT.startsWith("generic")
+                || Build.FINGERPRINT.startsWith("unknown")
+                || Build.HARDWARE.contains("goldfish")
+                || Build.HARDWARE.contains("ranchu")
+                || Build.MODEL.contains("google_sdk")
+                || Build.MODEL.contains("Emulator")
+                || Build.MODEL.contains("Android SDK built for x86")
+                || Build.MANUFACTURER.contains("Genymotion")
+                || Build.PRODUCT.contains("sdk_google")
+                || Build.PRODUCT.contains("google_sdk")
+                || Build.PRODUCT.contains("sdk")
+                || Build.PRODUCT.contains("sdk_x86")
+                || Build.PRODUCT.contains("vbox86p")
+                || Build.PRODUCT.contains("emulator")
+                || Build.PRODUCT.contains("simulator");
+    }
+    
+    public boolean CheckDownloadSource() {
+        // A list with valid installers package name
+        List<String> validInstallers = new ArrayList<>(Arrays.asList("com.android.vending", "com.google.android.feedback"));
+
+        // The package name of the app that has installed your app
+        final String installer = this.getPackageManager().getInstallerPackageName(this.getPackageName());
+
+        // true if your app has been downloaded from Play Store
+        return installer != null && validInstallers.contains(installer);
+    }
+    
+    public boolean CheckDebuggable() {
+        boolean debuggable =  ( 0 != ( getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE ) );
+        return debuggable;
+    }
 
     private void validate(JSONArray args, CallbackContext callback) {
-        if (args != null) {
-            try {
-                callback.success("You boss this :)");
-            } catch (Exception ex) {
-                callback.error("Something went wrong!");
-            }
-
-        } else {
-            callback.error("Expected one non-empty string argument.");
-        }
+      
     }
 }
