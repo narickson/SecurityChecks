@@ -1,6 +1,8 @@
 package cordova.plugin.securityChecks;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.provider.Settings;
 import android.net.wifi.WifiInfo;
@@ -19,6 +21,10 @@ import org.apache.cordova.CallbackContext;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * This class echoes a string called from JavaScript.
@@ -81,7 +87,7 @@ public class SecurityChecks extends CordovaPlugin {
         List<String> validInstallers = new ArrayList<>(Arrays.asList("com.android.vending", "com.google.android.feedback"));
 
         // The package name of the app that has installed your app
-        final String installer = this.getPackageManager().getInstallerPackageName(this.getPackageName());
+        final String installer = mContext.getPackageManager().getInstallerPackageName(mContext.getPackageName());
 
         // true if your app has been downloaded from Play Store
         boolean isFromPlayStore = installer != null && validInstallers.contains(installer);
@@ -93,7 +99,7 @@ public class SecurityChecks extends CordovaPlugin {
     
     public void CheckDebuggable(JSONArray args, CallbackContext callback) {
         try{
-        boolean debuggable =  ( 0 != ( getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE ) );
+        boolean debuggable =  ( 0 != ( mContext.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE ) );
             callback.success(String.valueOf(debuggable));
         } catch(Exception ex) {
             callback.error("An error occured");
