@@ -115,7 +115,6 @@ public class SecurityChecks extends CordovaPlugin {
          Process process = null;
    try {
       process = Runtime.getRuntime().exec("su");
-      rootFinder.setText("It is rooted device");
                    callback.success("Rooted");
    } catch (Exception e) {
             callback.success("NotRooted");
