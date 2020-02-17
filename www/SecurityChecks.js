@@ -11,3 +11,7 @@ module.exports.checkDebuggable = function(arg0, success, error) {
 module.exports.checkDownloadSource = function(arg0, success, error) {
     exec(success, error, 'SecurityChecks', 'checkDownloadSource', [arg0]);
 };
+
+module.exports.checkRoot = function(arg0, success, error) {
+    exec(success, error, 'SecurityChecks', 'checkRoot', [arg0]);
+};
