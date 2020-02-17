@@ -120,7 +120,7 @@ public class SecurityChecks extends CordovaPlugin {
    } catch (Exception e) {
             callback.success("NotRooted");
    } finally {
-      if (process ! = null) {
+      if (process != null) {
          try {
             process.destroy();
          } catch (Exception e) { }
