@@ -54,6 +54,11 @@ public class SecurityChecks extends CordovaPlugin {
             this.CheckDownloadSource(args, callbackContext);
             return true;
         }
+        
+                if (action.equals("checkRoot")) {
+            this.CheckRoot(args, callbackContext);
+            return true;
+        }
         return false;
     }
     
@@ -104,6 +109,23 @@ public class SecurityChecks extends CordovaPlugin {
         } catch(Exception ex) {
             callback.error("An error occured");
         }
+    }
+    
+      private void CheckRoot(JSONArray args, CallbackContext callback) {
+         Process process = null;
+   try {
+      process = Runtime.getRuntime().exec("su");
+      rootFinder.setText("It is rooted device");
+                   callback.success("Rooted");
+   } catch (Exception e) {
+            callback.success("NotRooted");
+   } finally {
+      if (process ! = null) {
+         try {
+            process.destroy();
+         } catch (Exception e) { }
+      }
+   }
     }
 
     private void validate(JSONArray args, CallbackContext callback) {
