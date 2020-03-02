@@ -40,29 +40,34 @@ public class SecurityChecks extends CordovaPlugin {
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
-        if (action.equals("checkEmulator")) {
-            this.CheckEmulator(args, callbackContext);
-            return true;
-        }
-        
-        if (action.equals("checkDebuggable")) {
-            this.CheckDebuggable(args, callbackContext);
-            return true;
-        }
-        
-        if (action.equals("checkDownloadSource")) {
-            this.CheckDownloadSource(args, callbackContext);
-            return true;
-        }
-        
-                if (action.equals("checkRoot")) {
-            this.CheckRoot(args, callbackContext);
-            return true;
-        }
+//        if (action.equals("checkEmulator")) {
+//            this.CheckEmulator(args, callbackContext);
+//            return true;
+//        }
+//
+//        if (action.equals("checkDebuggable")) {
+//            this.CheckDebuggable(args, callbackContext);
+//            return true;
+//        }
+//
+//        if (action.equals("checkDownloadSource")) {
+//            this.CheckDownloadSource(args, callbackContext);
+//            return true;
+//        }
+//
+//                if (action.equals("checkRoot")) {
+//            this.CheckRoot(args, callbackContext);
+//            return true;
+//        }
+      if (action.equals("SecurityValidate")) {
+        this.validate(args, callbackContext);
+        return true;
+      }
         return false;
     }
-    
-     private void CheckEmulator(JSONArray args, CallbackContext callback) {
+
+     private String CheckEmulator() {
+      String EmulatorCheck = "";
          try{
         boolean isEmulator = (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic"))
                 || Build.FINGERPRINT.startsWith("generic")
@@ -80,13 +85,17 @@ public class SecurityChecks extends CordovaPlugin {
                 || Build.PRODUCT.contains("vbox86p")
                 || Build.PRODUCT.contains("emulator")
                 || Build.PRODUCT.contains("simulator");
-         callback.success(String.valueOf(isEmulator));
+//         callback.success(String.valueOf(isEmulator));
+           EmulatorCheck = String.valueOf(isEmulator);
              } catch(Exception ex) {
-            callback.error("An error occured");
+//            callback.error("An error occured");
+           EmulatorCheck = "Emulator check exception";
         }
+         return EmulatorCheck;
     }
-    
-    public void CheckDownloadSource(JSONArray args, CallbackContext callback) {
+
+    public String CheckDownloadSource() {
+      String isPlaystore = "";
          try {
         // A list with valid installers package name
         List<String> validInstallers = new ArrayList<>(Arrays.asList("com.android.vending", "com.google.android.feedback"));
@@ -96,28 +105,38 @@ public class SecurityChecks extends CordovaPlugin {
 
         // true if your app has been downloaded from Play Store
         boolean isFromPlayStore = installer != null && validInstallers.contains(installer);
-            callback.success(String.valueOf(isFromPlayStore));
+//            callback.success(String.valueOf(isFromPlayStore));
+           isPlaystore = String.valueOf(isFromPlayStore);
              } catch(Exception ex) {
-            callback.error("An error occured");
+//            callback.error("An error occured");
+           isPlaystore = "playstore check Exception";
         }
+         return isPlaystore;
     }
-    
-    public void CheckDebuggable(JSONArray args, CallbackContext callback) {
+
+    public String CheckDebuggable() {
+      String  isDebbugable = "";
         try{
         boolean debuggable =  ( 0 != ( mContext.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE ) );
-            callback.success(String.valueOf(debuggable));
+//            callback.success(String.valueOf(debuggable));
+          isDebbugable = String.valueOf(debuggable);
         } catch(Exception ex) {
-            callback.error("An error occured");
+//            callback.error("An error occured");
+          isDebbugable = "Debbugable check exception";
         }
+        return isDebbugable;
     }
-    
-      private void CheckRoot(JSONArray args, CallbackContext callback) {
+
+      private String CheckRoot() {
+      String isRooted = "";
          Process process = null;
    try {
       process = Runtime.getRuntime().exec("su");
-                   callback.success("Rooted");
+//                   callback.success("Rooted");
+     isRooted = "Rooted";
    } catch (Exception e) {
-            callback.success("NotRooted");
+//            callback.success("NotRooted");
+     isRooted = "NotRooted";
    } finally {
       if (process != null) {
          try {
@@ -125,9 +144,19 @@ public class SecurityChecks extends CordovaPlugin {
          } catch (Exception e) { }
       }
    }
+   return isRooted;
     }
 
     private void validate(JSONArray args, CallbackContext callback) {
-      
+      try {
+        JSONObject res = new JSONObject();
+        res.put("Emulator", CheckEmulator());
+        res.put("DownloadSource", CheckDownloadSource());
+        res.put("Debbugable", CheckDebuggable());
+        res.put("Root", CheckRoot());
+        callback.success(res);
+      } catch (JSONException jex) {
+        callback.error("An error occured");
+      }
     }
 }
