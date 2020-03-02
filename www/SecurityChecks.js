@@ -15,3 +15,7 @@ module.exports.checkDownloadSource = function(arg0, success, error) {
 module.exports.checkRoot = function(arg0, success, error) {
     exec(success, error, 'SecurityChecks', 'checkRoot', [arg0]);
 };
+
+module.exports.SecurityValidate = function(arg0, success, error) {
+    exec(success, error, 'SecurityChecks', 'SecurityValidate', [arg0]);
+};
